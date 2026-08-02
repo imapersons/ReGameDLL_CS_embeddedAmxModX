@@ -8,6 +8,7 @@
 #include <cstring>
 #include <cstdarg>
 #include <ctime>
+#include <string>
 
 #ifdef _WIN32
 #include <direct.h>
@@ -30,11 +31,10 @@ AMXXLogSystem::AMXXLogSystem()
 
 void AMXXLogSystem::Init()
 {
-#ifdef __ANDROID__
-    const char *baseDir = "/sdcard/xash/cstrike/addons/amxmodx";
-#else
-    const char *baseDir = "cstrike/addons/amxmodx";
-#endif
+    // 通过引擎获取游戏目录 (gamedir)，Android 下即 /sdcard/xash/cstrike 等实际路径
+    char gameDir[256] = {0};
+    GET_GAME_DIR(gameDir);
+    std::string baseDir = std::string(gameDir) + "/addons/amxmodx";
 
 #ifdef _WIN32
     _mkdir(baseDir);

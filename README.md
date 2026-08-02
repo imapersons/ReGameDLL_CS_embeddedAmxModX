@@ -7,7 +7,12 @@
 Reverse-engineered Counter-Strike 1.6 server game library (mp.dll / cs.so) with an embedded AMX Mod X (AMXX) script runtime.
 
 ---
+## 现状 / Current situation
+正在测试中，还有很多bug，但已经能够运行 
+On testing , contain many bugs ,but could run
 
+文件中还有中文注释没有清理
+many chinese note still do not clean
 ## 这是什么？/ What is this?
 
 ReGameDLL_CS 是对 Valve 官方 CS 1.6 服务端游戏逻辑（HLDS build 6153beta 的 cs.so）逆向工程的产物，提供比官方更稳定的服务端，并为 Mod 与插件提供扩展 API。
@@ -30,7 +35,12 @@ This fork **embeds a full AMXX runtime** into the GameDLL: the AMXX core virtual
   SQL is backed by SQLite; admin accounts can be stored in the database with automatic table creation.
 - 插件目录结构与原版 AMXX 一致（`addons/amxmodx/`），现有插件无需修改即可运行
   The plugin layout matches vanilla AMXX (`addons/amxmodx/`), so existing plugins run without modification.
-
+- 不支持加载模块
+  Can not load Modules
+- 多平台支持，安卓端能够运行大多数amxx
+  Multi-platform support,Android could run majority amxx
+- 无JIT
+  NO JIT
 ## 内嵌 AMXX / Embedded AMXX
 
 - **运行时**：AMX 虚拟机（`amx.cpp` / `amx.h`），直接执行编译后的 `.amxx` 插件字节码；支持 `plugins.ini` 加载、暂停/恢复插件、CVar、服务器命令，以及菜单、消息、事件系统。
@@ -38,6 +48,8 @@ This fork **embeds a full AMXX runtime** into the GameDLL: the AMXX core virtual
 
 - **模块（静态编译）/ Modules (statically compiled)**：
   `amxmodx` (core), `admin`, `cstrike`, `csx`, `datapack`, `datastructs`, `dbi`, `engine`, `events`, `fakemeta`, `fun`, `gameconfig`, `geoip`, `hamsandwich`, `json`, `lang`, `log`, `menus`, `messages`, `regex`, `sockets`, `sqlx` (SQLite), `textparse`, `vault`
+  不支持加载模块（因为几乎全部模块都是dll格式，其他平台不支持）
+  Can not load Modules(Because almost modules are dlls,other platform do not support)
 
 - **Forwards（引擎事件回调）**：37 个已创建，35 个已接入引擎事件触发。
   Forwards (engine event callbacks): 37 created, 35 hooked to engine events.
@@ -52,10 +64,10 @@ This fork **embeds a full AMXX runtime** into the GameDLL: the AMXX core virtual
 
 ## 如何使用 / How to use
 
-ReGameDLL_CS 与 Valve 官方 CS 1.6 / CZero 完全兼容：下载或编译本仓库的二进制，替换原始 `mp.dll`（或 `cs.so`）即可，插件无需额外依赖。
+ReGameDLL_CS 与 Valve 官方 CS 1.6 / CZero 完全兼容：下载或编译本仓库的二进制，替换原始 `mp.dll`（或 `cs.so`），下载AmxModX 并在文件liblist.gam里禁用AmxModX。
 
 ReGameDLL_CS is fully compatible with the official CS 1.6 / CZero. Download or build the binaries from this repository and replace the original `mp.dll` (or `cs.so`); plugins need no additional dependencies.
-
+Download AmxModX and ban AmxModX in the file liblist.gam
 > **Warning!** ReGameDLL_CS 与原始 HLDS 并非二进制兼容（使用不同编译器构建），依赖二进制代码分析的插件（如 Orpheu）可能无法工作。
 > **Warning!** ReGameDLL_CS is not binary-compatible with the original HLDS since it is compiled with different compilers. Plugins that rely on binary code analysis (e.g. Orpheu) may not work.
 

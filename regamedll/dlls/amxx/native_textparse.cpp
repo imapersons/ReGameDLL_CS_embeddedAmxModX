@@ -42,14 +42,16 @@ enum
 
 // ========== 通用工具 ==========
 
-// fopen 打开文件; Android 下相对路径回退到 /sdcard/xash/ 前缀
+// fopen 打开文件; Android 下相对路径回退到游戏目录 (gamedir) 前缀
 static FILE *OpenFileStream(const char *path)
 {
     FILE *fp = fopen(path, "rt");
 #if defined(ANDROID) || defined(__ANDROID__)
     if (!fp && path[0] != '/' && path[0] != '\\') {
+        char gameDir[256] = {0};
+        GET_GAME_DIR(gameDir);
         char buf[1024];
-        snprintf(buf, sizeof(buf), "/sdcard/xash/%s", path);
+        snprintf(buf, sizeof(buf), "%s/%s", gameDir, path);
         fp = fopen(buf, "rt");
     }
 #endif

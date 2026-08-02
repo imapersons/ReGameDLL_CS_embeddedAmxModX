@@ -28,11 +28,10 @@ cell AMX_NATIVE_CALL amxx_log_to_file(AMX *amx, cell *params)
     }
     else
     {
-#ifdef __ANDROID__
-        snprintf(file, sizeof(file), "/sdcard/xash/cstrike/addons/amxmodx/logs/%s", szFile);
-#else
-        snprintf(file, sizeof(file), "cstrike/addons/amxmodx/logs/%s", szFile);
-#endif
+        // 通过引擎获取游戏目录 (gamedir)，Android 下即 /sdcard/xash/cstrike 等实际路径
+        char gameDir[256] = {0};
+        GET_GAME_DIR(gameDir);
+        snprintf(file, sizeof(file), "%s/addons/amxmodx/logs/%s", gameDir, szFile);
     }
 
     // 检测是否首次写入（文件不存在）
