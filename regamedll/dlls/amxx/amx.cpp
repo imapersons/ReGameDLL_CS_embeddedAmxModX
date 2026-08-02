@@ -67,9 +67,11 @@
 #endif
 
 #include <chrono>
+/*
+  do not need
 #include <amxmodx.h>
 #include <CPlugin.h>
-
+*/
 /* When one or more of the AMX_funcname macris are defined, we want
  * to compile only those functions. However, when none of these macros
  * is present, we want to compile everything.
@@ -4179,34 +4181,5 @@ int AMXAPI amx_GetStringOld(char *dest,const cell *source,int use_wchar)
 
 int AMXAPI amx_ExecPerf(AMX* amx, cell* retval, int index)
 {
-    CPluginMngr::CPlugin* perf_Plug = g_plugins.findPluginFast(amx);
-    if (amxmodx_perflog->value > 0.0f && perf_Plug && (perf_Plug->isDebug() || (int)amxmodx_debug->value == 2))
-    {
-        char perf_funcname[sNAMEMAX + 1];
-        perf_funcname[0] = '\0';
-        amx_GetPublic(perf_Plug->getAMX(), index, perf_funcname);
-        if (perf_funcname[0] == '\0')
-            sprintf(perf_funcname, "Unknown_ID%d", index);
-
-        const char* perf_plugname = perf_Plug->getName();
-        if (!perf_plugname || perf_plugname[0] == '\0')
-            perf_plugname = "Unknown_plugin";
-
-        using std::chrono::steady_clock;
-        using std::chrono::duration_cast;
-        using std::chrono::duration;
-        using std::chrono::microseconds;
-
-        auto t1 = steady_clock::now();
-        int err = amx_Exec(amx, retval, index);
-
-        auto ms_int = duration_cast<microseconds>(steady_clock::now() - t1);
-        auto ms_float = (float)(ms_int.count() / 1000.0f);
-        if (ms_float >= amxmodx_perflog->value)
-        {
-            AMXXLOG_Log("[%s] performance issue. Function %s executed more than %.*fms.", perf_plugname, perf_funcname, 1, ms_float);
-        }
-        return err;
-    }
-    return amx_Exec(amx, retval, index);
+  return amx_Exec(amx, retval, index); //Directly call the core interpreter
 }
