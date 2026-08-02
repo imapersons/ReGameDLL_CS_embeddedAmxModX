@@ -37,10 +37,10 @@ void AMXXLogSystem::Init()
     std::string baseDir = std::string(gameDir) + "/addons/amxmodx";
 
 #ifdef _WIN32
-    _mkdir(baseDir);
+    _mkdir(baseDir.c_str());
     _mkdir((std::string(baseDir) + "/logs").c_str());
 #else
-    mkdir(baseDir, 0755);
+    mkdir(baseDir.c_str(), 0755);
     mkdir((std::string(baseDir) + "/logs").c_str(), 0755);
 #endif
 
