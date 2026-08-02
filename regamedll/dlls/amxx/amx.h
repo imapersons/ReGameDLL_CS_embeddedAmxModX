@@ -336,14 +336,6 @@ enum {
   #define AMX_COMPACTMARGIN 64
 #endif
 
-#define UD_FINDPLUGIN	3
-#define UD_DEBUGGER		2
-#define UD_OPCODELIST	1
-#define	UD_HANDLER		0
-#define	UT_NATIVE		3
-#define UT_OPTIMIZER	2
-#define UT_BROWSEHOOK	1
-#define UT_BINLOGS		0
 
 typedef void (*BROWSEHOOK)(AMX *amx, cell *oplist, cell *cip);
 
