@@ -18,11 +18,13 @@ void AMXXVault::Init()
 {
     AMXX_LOG("[Vault] Initializing vault system...");
     m_data.clear();
-#ifdef __ANDROID__
-    m_defaultFile = "/sdcard/xash/cstrike/addons/amxmodx/data/vault.ini";
-#else
-    m_defaultFile = "cstrike/addons/amxmodx/data/vault.ini";
-#endif
+
+    // 通过引擎获取游戏目录 (gamedir)，Android 下即 /sdcard/xash/cstrike 等实际路径
+    char gameDir[256] = {0};
+    GET_GAME_DIR(gameDir);
+    m_defaultFile = gameDir;
+    m_defaultFile += "/addons/amxmodx/data/vault.ini";
+
     Load(m_defaultFile.c_str());
 }
 

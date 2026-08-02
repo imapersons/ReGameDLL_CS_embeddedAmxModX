@@ -193,11 +193,10 @@ static std::vector<NVaultData *> g_nvaultHandles;
 
 static void amxx_nvault_buildpath(const char *name, char *out, size_t outlen)
 {
-#ifdef __ANDROID__
-    snprintf(out, outlen, "/sdcard/xash/cstrike/addons/amxmodx/data/vault/%s.vault", name);
-#else
-    snprintf(out, outlen, "cstrike/addons/amxmodx/data/vault/%s.vault", name);
-#endif
+    // 通过引擎获取游戏目录 (gamedir)，Android 下即 /sdcard/xash/cstrike 等实际路径
+    char gameDir[256] = {0};
+    GET_GAME_DIR(gameDir);
+    snprintf(out, outlen, "%s/addons/amxmodx/data/vault/%s.vault", gameDir, name);
 }
 
 static NVaultData *amxx_nvault_get(int handle)
